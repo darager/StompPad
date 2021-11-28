@@ -8,10 +8,17 @@ button = Pin(16,  Pin.IN, Pin.PULL_UP)
 k = keyboard.Keyboard()
 a = 0x04;
 
-while True:
-    time.sleep(0.1)
-    led.value(button.value())
+prev = False
 
-    if not button.value():
+while True:
+    time.sleep(0.05)
+
+    curr = not button.value()
+
+    led.value(curr)
+
+    if prev == False and curr == True:
         k.press(a)
-        k.release();
+        k.release_all()
+
+    prev = curr
