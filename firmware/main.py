@@ -14,16 +14,33 @@ class Switch:
         currState = not self.pin.value()
 
         if self.lastPinState == False and currState == True:
-            for key in self.keys:
-                self.keyboard.press(key)
-            for key in self.keys:
-                self.keyboard.release(key)
+            keeb = self.keyboard
+            keys = self.keys
+
+            if len(keys) > 1:
+                keeb.press(keys[0], keys[1])
+                keeb.release(keys[0], keys[1])
+            else:
+                keeb.press(keys[0])
+                keeb.release(keys[0])
+
+            print("pressing: ", keys)
 
         self.lastPinState = currState
 
+
 k = keyboard.Keyboard()
+
+alt = k.MOD_LEFT_ALT
+alt_i = [alt, 0x0c]
+alt_j = [alt, 0x0d]
+alt_k = [alt, 0x0e]
+alt_l = [alt, 0x0f]
+alt_u = [alt, 0x18]
+
 switches = [
-    Switch(16, [0x05], k)
+            Switch(17, alt_i, k), Switch(16, alt_u, k),
+    Switch(20, alt_j, k), Switch(19, alt_k, k), Switch(18, alt_l, k)
 ]
 
 while True:
