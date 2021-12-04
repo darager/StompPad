@@ -17,14 +17,8 @@ class Switch:
             keeb = self.keyboard
             keys = self.keys
 
-            if len(keys) > 1:
-                keeb.press(keys[0], keys[1])
-                keeb.release(keys[0], keys[1])
-            else:
-                keeb.press(keys[0])
-                keeb.release(keys[0])
-
-            print("pressing: ", keys)
+            keeb.press(*keys)
+            keeb.release(*keys)
 
         self.lastPinState = currState
 
