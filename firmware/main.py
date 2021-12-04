@@ -1,5 +1,6 @@
 import time
 import keyboard
+from keyboard import Key
 from machine import Pin
 
 class Switch:
@@ -25,12 +26,12 @@ class Switch:
 
 k = keyboard.Keyboard()
 
-alt = k.MOD_LEFT_ALT
-alt_i = [alt, 0x0c]
-alt_j = [alt, 0x0d]
-alt_k = [alt, 0x0e]
-alt_l = [alt, 0x0f]
-alt_u = [alt, 0x18]
+alt = Key.MOD_LEFT_ALT
+alt_i = [alt, Key.i]
+alt_j = [alt, Key.j]
+alt_k = [alt, Key.k]
+alt_l = [alt, Key.l]
+alt_u = [alt, Key.u]
 
 switches = [
             Switch(17, alt_i, k), Switch(16, alt_u, k),
