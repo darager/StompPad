@@ -33,10 +33,19 @@ alt_k = [alt, Key.k]
 alt_l = [alt, Key.l]
 alt_u = [alt, Key.u]
 
-switches = [
-            Switch(17, alt_i, k), Switch(16, alt_u, k),
-    Switch(20, alt_j, k), Switch(19, alt_k, k), Switch(18, alt_l, k)
-]
+switchPins = [ 17, 16,
+             20, 19, 18]
+layers = {
+    "default": [ alt_i, alt_u,
+              alt_j, alt_k, alt_l ]
+}
+
+switches = []
+
+for i in range(len(switchPins)):
+    pin = switchPins[i]
+    switch = Switch(pin, layers["default"][i], k)
+    switches.append(switch)
 
 while True:
     for switch in switches:
