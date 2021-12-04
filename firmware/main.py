@@ -3,28 +3,28 @@ import keyboard
 from keyboard import Key
 from machine import Pin
 
-class Switch:
-    def __init__(self, pinId, keys, keyboard):
-        self.keyboard = keyboard
-        self.keys = keys
+k = keyboard.Keyboard()
 
+class Switch:
+    def __init__(self, pinId, onPress):
         self.pin = Pin(pinId, Pin.IN, Pin.PULL_UP)
         self.lastPinState = not self.pin.value()
+        self.onPress = onPress
 
     def checkForInputValueChange(self):
         currState = not self.pin.value()
 
         if self.lastPinState == False and currState == True:
-            keeb = self.keyboard
-            keys = self.keys
-
-            keeb.press(*keys)
-            keeb.release(*keys)
+            if self.onPress:
+                self.onPress()
 
         self.lastPinState = currState
 
-
-k = keyboard.Keyboard()
+def createSendFunc(keys, keeb):
+    def send():
+        keeb.press(*keys)
+        keeb.release(*keys)
+    return send
 
 alt = Key.MOD_LEFT_ALT
 alt_i = [alt, Key.i]
@@ -41,10 +41,13 @@ layers = {
 }
 
 switches = []
-
 for i in range(len(switchPins)):
     pin = switchPins[i]
-    switch = Switch(pin, layers["default"][i], k)
+
+    keys = layers["default"][i]
+    send = createSendFunc(keys, k)
+
+    switch = Switch(pin, send)
     switches.append(switch)
 
 while True:
